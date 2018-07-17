@@ -1,0 +1,417 @@
+MySQL:
+neoaf2_client_0001_inventory
+neoaf2_cl0001ro:pIPvq5fmUuaIq28
+neoaf2_cl0001rw:k6uB19NbgBkfvNB
+home__neoaf2__mysql_creds:Noi3Ts8AFzZVswUpc5
+
+Client: 
+Ama Serwa Sarpong
+
+++++++++++++++++++++++++++++
+
+CREATE TABLE `neoaf2_client_0001_inventory`.`article` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(500) NOT NULL,
+    `added_dt` DATETIME NOT NULL,
+	`added_by` VARCHAR(50) NOT NULL,
+    `updated_dt` DATETIME NULL,
+	`updated_by` VARCHAR(50) NULL,
+
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `article_name_u` (`name`)
+) ENGINE=INNODB;
+
+CREATE TABLE `neoaf2_client_0001_inventory`.`tally_card` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `article_id` INT NOT NULL,
+    `quantity` INT NOT NULL,
+    `updated_dt` DATETIME NOT NULL,
+	`updated_by` VARCHAR(50) NOT NULL,
+
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `tally_card_article_id_u` (`article_id`),
+
+	CONSTRAINT `fk_tally_card_article_id` FOREIGN KEY (`article_id`)
+		REFERENCES `neoaf2_client_0001_inventory`.`article` (`id`)
+) ENGINE=INNODB;
+
+CREATE TABLE `neoaf2_client_0001_inventory`.`tally_card_change` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `article_id` INT NOT NULL,
+    `quantity` INT NOT NULL,
+    `price` DOUBLE NOT NULL,
+    `added_dt` DATETIME NOT NULL,
+	`added_by` VARCHAR(50) NOT NULL,
+
+    PRIMARY KEY (`id`),
+    INDEX `tally_card_change_article_id` (`article_id`),
+
+	CONSTRAINT `fk_tally_card_change_article_id` FOREIGN KEY (`article_id`)
+		REFERENCES `neoaf2_client_0001_inventory`.`article` (`id`)
+) ENGINE=INNODB;
+
+CREATE TABLE `neoaf2_client_0001_inventory`.`inventory_change` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `article_id` INT NOT NULL,
+    `quantity` INT NOT NULL,
+    `price` DOUBLE NOT NULL,
+    `amount` DOUBLE NOT NULL,
+    `added_dt` DATETIME NOT NULL,
+	`added_by` VARCHAR(50) NOT NULL,
+
+    PRIMARY KEY (`id`),
+    INDEX `inventory_change_article_id` (`article_id`),
+
+	CONSTRAINT `fk_inventory_change_article_id` FOREIGN KEY (`article_id`)
+		REFERENCES `neoaf2_client_0001_inventory`.`article` (`id`)
+) ENGINE=INNODB;
+
+CREATE TABLE `neoaf2_client_0001_inventory`.`inventory_value` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `amount` DOUBLE NOT NULL,
+    `updated_dt` DATETIME NOT NULL,
+	`updated_by` VARCHAR(50) NOT NULL,
+
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `inventory_value_updated_dt_u` (`updated_dt`)
+) ENGINE=INNODB;
+
+CREATE TABLE `neoaf2_client_0001_inventory`.`bank_payment` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `amount` DOUBLE NOT NULL,
+    `updated_dt` DATETIME NOT NULL,
+	`updated_by` VARCHAR(50) NOT NULL,
+
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `bank_payment_updated_dt_u` (`updated_dt`)
+) ENGINE=INNODB;
+
+CREATE TABLE `neoaf2_client_0001_inventory`.`credit` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(500) NOT NULL,
+    `amount` DOUBLE NOT NULL,
+	`paid` BIT NOT NULL DEFAULT 0,
+    `added_dt` DATETIME NOT NULL,
+	`added_by` VARCHAR(50) NOT NULL,
+    `updated_dt` DATETIME NULL,
+	`updated_by` VARCHAR(50) NULL,
+
+    PRIMARY KEY (`id`),
+    INDEX `credit_name` (`name`),
+    INDEX `credit_amount` (`amount`),
+    INDEX `credit_name_amount` (`name`,`amount`)
+) ENGINE=INNODB;
+
+++++++++++++++++++++++++
+
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'AFRICA QUEEN (CAN) 340G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'AFRICA''S CHOICE (TIN) 210G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'ALL DAY (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'AMIKO (CAN) 415G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'ATLANTA (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'ATLANTA (PACK) 500G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'AYA (BOTTLE) 450ML',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'AYA (BOTTLE) 900ML',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'BALONA CHOCOLATE (BOTTLE) ',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'BALONA NON-DAIRY (BOTTLE) ',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'BEEF PATE (CAN) 400G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'BELMA (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'BRISK FARM (SACHET) 1.1G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'BRISK FARM (SACHET) 70G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'CINDY (CAN) 155G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'CINDY (PACK) 250G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'CINDY (PACK) 500G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'DAPHNIS (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'DELAY (CAN) 155G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'DELAY (CAN) 425G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'DELAY (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'DIAMOND (PACK) 500G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'DOLLY (TIN) 2.2G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'ELITA (BOTTLE) 1L',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'ELITA (BOTTLE) 5L',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'ENA PA (CAN) 155G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'ENA PA (CAN) 200G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'ENA PA (CAN) 425G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'ENA PA (FLAKES) 24 X 160G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'EXETER (CAN) 198G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'EXETER (CAN) 340G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'FESTIN (TIN) 2.2G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'FESTIVA (CAN) 155G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'FESTIVA (CAN) 415G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'FESTIVA (CAN) 425G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'GEISHA (CAN) 425G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'GINNY (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'GINO (BAG) 5 X 5KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'GINO (CAN) 415G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'GINO (CAN) 425G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'GINO (SACHET) 1.1G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'GINO (SACHET) 210G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'GINO (SACHET) 400G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'GINO (SACHET) 70G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'GINO (TIN) 2.2G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'GINO (TIN) 210G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'GINO (TIN) 400G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'HEINZ (CAN) 200G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'HEINZ (CAN) 415G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'HOMEFOODS (BOTTLE) 5L',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'JAGO (TIN) 1KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'L 79 (TIN) 2.2G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'L 79 (TIN) 210G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'L 79 (TIN) 400G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LAEP (SACHET) 70G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LAVONCE (SACHET) 1.1G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LAVONCE (SACHET) 70G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LAVONCE (TIN) 2.2G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LAVONCE (TIN) 210G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LEAP (TIN) 2.2G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LEAP (TIN) 210G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LEAP (TIN) 400G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LEAP (TIN) 800G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (BAG) 1 X 25KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (BAG) 25KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (BAG) 5 X 5KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (CAN) 155G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (CAN) 198G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (CAN) 200G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (CAN) 340G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (CAN) 415G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (CAN) 425G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (CHUNK) 24 X 160G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (CHUNK) 48 X 80G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (FLAKES) 24 X 160G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (FLAKES) 48 X 80G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LELE (PACK) 250G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'LOUI (TIN) 2.2G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'MAGIC (CAN) 425G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'MAMA (BAG) 5 X 5KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'MAMA (PACK) 250G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'MAMA (PACK) 450G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'MAMA (PACK) 500G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'MAMA (TIN) 2.2G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'MAMY (SACHET) 70G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'MILO (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'MY DAY VIP (BAG) 5 X 5KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'MY DEER (BAG) 5 X 5KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'NABO (CAN) 425G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'NHYIRA (TIN) 400G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'OBA (BAG) 5 X 5KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'OBA (PACK) 500G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'OBA NIDO (PACK) 250G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'OBAAPA (BOTTLE) 5L',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'OBAAPA (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'OHEMAA (CAN) 415G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'OHEMAA (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'OYE (CAN) 425G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'OYE (TIN) 210G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'OYO (TIN) 2.2G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'PARADICE (CAN) 425G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'POMO (SACHET) 1.1G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'POMO (SACHET) 210G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'POMO (SACHET) 70G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'PRESTIGE (TIN) 2.2G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'PRINCESS (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'QUEEN''S STAR (TIN) 210G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'RAMBO (CAN) 400G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'RAMBO (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'RAMBO (CAN) 800G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'SEA CROWN (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'SHINE (SACHET) 70G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'SILVER (CAN) 425G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'SILVER (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'SOFIA (BAG) 1 X 25KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'SOFIA (BAG) 5 X 5KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'STAR KIST (FLAKES) 24 X 160G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'SULTANA (BAG) 5 X 5KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'SUPER CONDENSED (TIN) 1KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'TAM-TAM (TIN) 2.2G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'TASTY TOM (SACHET) 1.1G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'TASTY TOM (SACHET) 210G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'TASTY TOM (SACHET) 400G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'TASTY TOM (SACHET) 70G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'TASTY TOM (TIN) 2.2G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'TASTY TOM (TIN) 210G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'TASTY TOM (TIN) 400G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'TIPA (SACHET) 70G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'TITUS (CAN) 50 X 125G',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'UNOLI (BOTTLE) 1L',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'UNOLI (BOTTLE) 2L',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'UNOLI (BOTTLE) 5L',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'VEGA (BOTTLE) 880ML',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'YASMINA (BAG) 5 X 5KG',  NOW(), CURRENT_USER() );
+INSERT INTO `neoaf2_client_0001_inventory`.`article` ( `name` , `added_dt` , `added_by` ) VALUES ( 'ZEA (BOTTLE) 1.8L',  NOW(), CURRENT_USER() );
+
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (1, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (2, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (3, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (4, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (5, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (6, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (7, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (8, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (9, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (10, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (11, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (12, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (13, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (14, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (15, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (16, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (17, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (18, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (19, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (20, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (21, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (22, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (23, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (24, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (25, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (26, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (27, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (28, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (29, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (30, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (31, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (32, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (33, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (34, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (35, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (36, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (37, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (38, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (39, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (40, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (41, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (42, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (43, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (44, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (45, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (46, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (47, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (48, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (49, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (50, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (51, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (52, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (53, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (54, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (55, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (56, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (57, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (58, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (59, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (60, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (61, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (62, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (63, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (64, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (65, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (66, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (67, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (68, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (69, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (70, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (71, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (72, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (73, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (74, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (75, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (76, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (77, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (78, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (79, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (80, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (81, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (82, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (83, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (84, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (85, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (86, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (87, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (88, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (89, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (90, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (91, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (92, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (93, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (94, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (95, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (96, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (97, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (98, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (99, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (100, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (101, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (102, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (103, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (104, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (105, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (106, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (107, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (108, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (109, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (110, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (111, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (112, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (113, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (114, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (115, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (116, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (117, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (118, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (119, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (120, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (121, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (122, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (123, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (124, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (125, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (126, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (127, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (128, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (129, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (130, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (131, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (132, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (133, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (134, 100, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card` (`article_id`, `quantity`, `updated_dt`, `updated_by`) VALUES (135, 100, NOW(), CURRENT_USER());
+
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card_change` (`article_id`, `quantity`, `price`, `added_dt`, `added_by`) VALUES (1, 100, 110, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card_change` (`article_id`, `quantity`, `price`, `added_dt`, `added_by`) VALUES (2, 100, 220, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card_change` (`article_id`, `quantity`, `price`, `added_dt`, `added_by`) VALUES (3, 100, 330, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card_change` (`article_id`, `quantity`, `price`, `added_dt`, `added_by`) VALUES (4, 100, 440, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`tally_card_change` (`article_id`, `quantity`, `price`, `added_dt`, `added_by`) VALUES (5, 100, 550, NOW(), CURRENT_USER());
+
+INSERT INTO `neoaf2_client_0001_inventory`.`inventory_value` (`amount`, `updated_dt`, `updated_by`) VALUES (165000, NOW(), CURRENT_USER());
+
+INSERT INTO `neoaf2_client_0001_inventory`.`bank_payment` (`amount`, `updated_dt`, `updated_by`) VALUES (5000, NOW(), CURRENT_USER());
+
+INSERT INTO `neoaf2_client_0001_inventory`.`credit` (`name`, `amount`, `added_dt`, `added_by`) VALUES ('Adamu', 2000, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`credit` (`name`, `amount`, `paid`, `added_dt`, `added_by`, `updated_dt`, `updated_by`) VALUES ('Ato''s wife', 7975, 1, NOW(), CURRENT_USER(), NOW(), CURRENT_USER());
+
+INSERT INTO `neoaf2_client_0001_inventory`.`inventory_change` (`article_id`, `quantity`, `price`, `amount`, `added_dt`, `added_by`) VALUES (5, 10, 525, 5250, NOW(), CURRENT_USER());
+INSERT INTO `neoaf2_client_0001_inventory`.`inventory_change` (`article_id`, `quantity`, `price`, `amount`, `added_dt`, `added_by`) VALUES (5, 10, 560, 5600, NOW(), CURRENT_USER());
+
+SELECT * FROM `neoaf2_client_0001_inventory`.`article`;
+SELECT * FROM `neoaf2_client_0001_inventory`.`article` WHERE `id` = 5;
+
+
++++++++++++++++++++++++++
+
+CREATE TABLE `neoaf2_client_0001_inventory`.`tally_card` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `article_id` INT NOT NULL,
+    `current_quantity` INT NULL,
+
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `article_id_u` (`article_id`),
+
+    FOREIGN KEY `tally_card_article_id` (`article_id`)
+      REFERENCES `neoaf2_client_0001_inventory`.`article` (`id`)
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+
+    FOREIGN KEY (customer_id)
+      REFERENCES customer(id)
+)
+
+CREATE UNIQUE INDEX  ON `neoaf2_client_0001_inventory`.`article` (index_col_name,...)

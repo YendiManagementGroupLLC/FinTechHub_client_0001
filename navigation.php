@@ -14,8 +14,8 @@ include "functs.php";
 <br> 
 (3) <a href="moneymgmt.php" target="_parent">Add Bank Payment/Credit Line</a>
 <br> 
-(4) <a href="artmgmt.php" target="_parent">Manage Articles/Tally Card</a>
-<br>
+<!-- (4) <a href="artmgmt.php" target="_parent">Manage Articles/Tally Card</a>
+<br> -->
 <h3>R E P O R T I N G</h3>
 (1) <a href="invrpt.php" target="_parent">Inventory Report</a>
 <br> 

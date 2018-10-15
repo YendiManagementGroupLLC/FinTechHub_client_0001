@@ -454,7 +454,10 @@ function rw_connection() {
 
 
 function get_formatted_date($date_str) {
-	$date = date_create($date_str);
+    // set_telemetry_data($date_str); => 2018-10-15 19:43:32
+    // $date = date_create_from_format("Y-m-d H:i:s", $date_str);
+    $tz = timezone_open('UTC');
+    $date = date_create($date_str, $tz);
 	return date_format($date, "D dS M Y h:i:s A"); 
 	// Thursday 14th June 2018 12:15pm => l jS F Y g:ia
 	// Thu 14th Jun 2018 12:15:46 PM => D dS M Y h:i:s A
